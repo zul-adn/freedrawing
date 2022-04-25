@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/freedrawing/static/css/main.3ca3c98b.css",
+    "main.js": "/freedrawing/static/js/main.6082591f.js",
+    "static/js/787.ec92ab1f.chunk.js": "/freedrawing/static/js/787.ec92ab1f.chunk.js",
+    "static/media/logo.svg": "/freedrawing/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/freedrawing/index.html",
+    "main.3ca3c98b.css.map": "/freedrawing/static/css/main.3ca3c98b.css.map",
+    "main.6082591f.js.map": "/freedrawing/static/js/main.6082591f.js.map",
+    "787.ec92ab1f.chunk.js.map": "/freedrawing/static/js/787.ec92ab1f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3ca3c98b.css",
+    "static/js/main.6082591f.js"
+  ]
+}
