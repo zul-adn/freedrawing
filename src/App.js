@@ -6,7 +6,8 @@ import { Stage, Layer, Line, Text } from 'react-konva';
 const App = (props) => {
   // const [tool, setTool] = React.useState('pen');
   const {
-    tool
+    tool,
+    color
   } = props
   const [lines, setLines] = React.useState([]);
   const isDrawing = React.useRef(false);
@@ -40,7 +41,7 @@ const App = (props) => {
   return (
     <div style={{ overflowY: 'hidden' }}>
       <Stage
-        width={window.innerWidth - 140}
+        width={window.innerWidth - 400}
        height={window.innerHeight - 80}
 
         onTouchstart={handleMouseDown}
@@ -56,7 +57,7 @@ const App = (props) => {
             <Line
               key={i}
               points={line.points}
-              stroke="#df4b26"
+              stroke={color}
               strokeWidth={5}
               tension={0.5}
               lineCap="round"
