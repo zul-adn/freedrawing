@@ -15,7 +15,7 @@ const App = (props) => {
   const handleMouseDown = (e) => {
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
-    setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+    setLines([...lines, { tool, points: [pos.x, pos.y], color }]);
   };
 
   const handleMouseMove = (e) => {
@@ -57,7 +57,7 @@ const App = (props) => {
             <Line
               key={i}
               points={line.points}
-              stroke={color}
+              stroke={line.color}
               strokeWidth={5}
               tension={0.5}
               lineCap="round"
@@ -68,15 +68,6 @@ const App = (props) => {
           ))}
         </Layer>
       </Stage>
-      {/* <select
-        value={tool}
-        onChange={(e) => {
-          setTool(e.target.value);
-        }}
-      >
-        <option value="pen">Pen</option>
-        <option value="eraser">Eraser</option>
-      </select> */}
     </div>
   );
 }
