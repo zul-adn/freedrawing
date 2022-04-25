@@ -7,7 +7,8 @@ const App = (props) => {
   // const [tool, setTool] = React.useState('pen');
   const {
     tool,
-    color
+    color,
+    width
   } = props
   const [lines, setLines] = React.useState([]);
   const isDrawing = React.useRef(false);
@@ -15,7 +16,7 @@ const App = (props) => {
   const handleMouseDown = (e) => {
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
-    setLines([...lines, { tool, points: [pos.x, pos.y], color }]);
+    setLines([...lines, { tool, points: [pos.x, pos.y], color, width }]);
   };
 
   const handleMouseMove = (e) => {
@@ -58,7 +59,7 @@ const App = (props) => {
               key={i}
               points={line.points}
               stroke={line.color}
-              strokeWidth={5}
+              strokeWidth={line.width}
               tension={0.5}
               lineCap="round"
               globalCompositeOperation={
