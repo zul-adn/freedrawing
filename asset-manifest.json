@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/freedrawing/static/css/main.737a5498.css",
-    "main.js": "/freedrawing/static/js/main.f36f5605.js",
+    "main.css": "/freedrawing/static/css/main.a34fc859.css",
+    "main.js": "/freedrawing/static/js/main.692af5fe.js",
     "static/js/787.ec92ab1f.chunk.js": "/freedrawing/static/js/787.ec92ab1f.chunk.js",
     "static/media/index.less": "/freedrawing/static/media/index.2979fe4ba4a7f3287586.less",
     "static/media/logo.svg": "/freedrawing/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/freedrawing/index.html",
-    "main.737a5498.css.map": "/freedrawing/static/css/main.737a5498.css.map",
-    "main.f36f5605.js.map": "/freedrawing/static/js/main.f36f5605.js.map",
+    "main.a34fc859.css.map": "/freedrawing/static/css/main.a34fc859.css.map",
+    "main.692af5fe.js.map": "/freedrawing/static/js/main.692af5fe.js.map",
     "787.ec92ab1f.chunk.js.map": "/freedrawing/static/js/787.ec92ab1f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.737a5498.css",
-    "static/js/main.f36f5605.js"
+    "static/css/main.a34fc859.css",
+    "static/js/main.692af5fe.js"
   ]
 }
