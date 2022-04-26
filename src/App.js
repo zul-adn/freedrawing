@@ -2,21 +2,27 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Stage, Layer, Line, Text } from 'react-konva';
+import { triggerBase64Download } from 'react-base64-downloader';
 
-function downloadURI(uri, name) {
+async function downloadURI(uri, name) {
+
+  const img = await fetch(uri)
+  const imageBlog = await img.blob()
+  const imageURL = URL.createObjectURL(imageBlog)
+
   var link = document.createElement('a');
   link.download = name;
-  link.href = uri;
+  link.href = imageURL;
   document.body.appendChild(link);
-  // link.click();
-  // document.body.removeChild(link);
-  setTimeout(function() { 
-    link.click();  
+  //link.click();
+  //document.body.removeChild(link);
+  setTimeout(function () {
+    link.click();
     // Cleanup the DOM 
-    document.body.removeChild(link); 
+    document.body.removeChild(link);
     // DOWNLOAD_COMPLETED = true; 
-    document.getElementById('nextButton').onclick(); 
-}, 500); 
+    //document.getElementById('nextButton').onclick(); 
+  }, 1000);
 }
 
 const App = (props) => {
@@ -32,7 +38,7 @@ const App = (props) => {
   const stageRef = React.useRef(null);
 
   const handleExport = () => {
-    const uri = stageRef.current.toDataURL();
+    const uri = stageRef.current.toDataURL()
     downloadURI(uri, 'image.png');
   };
 
@@ -65,7 +71,7 @@ const App = (props) => {
   return (
     <div style={{ overflowY: 'hidden' }}>
       <button
-      id="nextButtin"
+        id="nextButtin"
         onClick={handleExport}
         class=" absolute bg-blue-500 right-20 bottom-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded z-9"
       >Save Image</button>
