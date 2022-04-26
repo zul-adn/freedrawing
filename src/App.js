@@ -3,6 +3,22 @@ import logo from './logo.svg';
 import './App.css';
 import { Stage, Layer, Line, Text } from 'react-konva';
 
+function downloadURI(uri, name) {
+  var link = document.createElement('a');
+  link.download = name;
+  link.href = uri;
+  document.body.appendChild(link);
+  // link.click();
+  // document.body.removeChild(link);
+  setTimeout(function() { 
+    link.click();  
+    // Cleanup the DOM 
+    document.body.removeChild(link); 
+    // DOWNLOAD_COMPLETED = true; 
+    document.getElementById('nextButton').onclick(); 
+}, 500); 
+}
+
 const App = (props) => {
   // const [tool, setTool] = React.useState('pen');
   const {
@@ -12,6 +28,13 @@ const App = (props) => {
   } = props
   const [lines, setLines] = React.useState([]);
   const isDrawing = React.useRef(false);
+
+  const stageRef = React.useRef(null);
+
+  const handleExport = () => {
+    const uri = stageRef.current.toDataURL();
+    downloadURI(uri, 'image.png');
+  };
 
   const handleMouseDown = (e) => {
     isDrawing.current = true;
@@ -41,17 +64,21 @@ const App = (props) => {
 
   return (
     <div style={{ overflowY: 'hidden' }}>
+      <button
+      id="nextButtin"
+        onClick={handleExport}
+        class=" absolute bg-blue-500 right-20 bottom-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded z-9"
+      >Save Image</button>
       <Stage
         width={window.innerWidth - 400}
-       height={window.innerHeight - 80}
-
+        height={window.innerHeight - 80}
         onTouchstart={handleMouseDown}
         onTouchmove={handleMouseMove}
         onTouchend={handleMouseUp}
         onMousedown={handleMouseDown}
         onMousemove={handleMouseMove}
         onMouseup={handleMouseUp}
-
+        ref={stageRef}
       >
         <Layer>
           {lines.map((line, i) => (

@@ -24,7 +24,7 @@ const MainApp = () => {
 
     const [tool, setTool] = React.useState('pen')
     const [color, setColor] = React.useState('#00000')
-    const [width, setWidth] = React.useState(1) 
+    const [width, setWidth] = React.useState(1)
 
     return (
         <div className={`h-screen flex overflow-y-hidden overflow-x-hidden`}>
@@ -52,7 +52,7 @@ const MainApp = () => {
                     max="50" //max can be 255
                     value={width}
                     onChange={(e) => setWidth(e.target.value)}
-                    style={{backgroundColor: `rgb(val-50, val, val-20)`, width:'100%'}} //you can do same trick as you like
+                    style={{ backgroundColor: `rgb(val-50, val, val-20)`, width: '100%' }} //you can do same trick as you like
                 />
                 <CirclePicker
                     circleSize={20}
