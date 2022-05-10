@@ -109,6 +109,7 @@ const MainApp = () => {
                         color={color}
                         width={width}
                         images={images}
+                        setPenNull={() => setTool('')}
                     />
                 </div>
 

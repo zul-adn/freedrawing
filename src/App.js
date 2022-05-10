@@ -106,13 +106,13 @@ const App = (props) => {
     tool,
     color,
     width,
-    images
+    images,
+    setPenNull
   } = props
 
   const [lines, setLines] = React.useState([]);
   const [selectedImage, setSelectedImage] = React.useState(null);
   const [imagee, setImagee] = React.useState(images)
-  const [isDrag, setIsDrag] = React.useState(false)
 
 
   const checkDeselect = (e) => {
@@ -197,6 +197,7 @@ const App = (props) => {
                 isSelected={image.id === selectedImage}
                 onSelect={() => {
                   setSelectedImage(image.id);
+                  setPenNull()
                 }}
                 onChange={(newAttrs) => {
                   const image = images.slice();
