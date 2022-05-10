@@ -55,7 +55,6 @@ const Images = ({ imageProps, isSelected, onSelect, onChange }) => {
             y: e.target.y(),
           });
         }}
-        crossorigin="anonymous"
         onTransformEnd={(e) => {
           // transformer is changing scale of the node
           // and NOT its width or height
