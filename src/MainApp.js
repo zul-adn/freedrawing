@@ -4,6 +4,11 @@ import { Slider, RangeSlider } from 'rsuite';
 import { SketchPicker, CirclePicker } from 'react-color';
 import { storage } from './firebase';
 import { ref, getDownloadURL, uploadBytesResumable, listAll } from "firebase/storage";
+import {
+    NotificationContainer,
+    NotificationManager
+} from "react-light-notifications";
+import "react-light-notifications/lib/main.css";
 
 import 'rsuite/styles/index.less';
 
@@ -54,23 +59,24 @@ const MainApp = () => {
 
     const handleChange = (e) => {
         setIsChoose(false)
-        const file = e.target[0]?.files[0]
+        const file = e.target.files[0]
+        console.log(file)
         setImgUrl(file)
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        const file = e.target[0]?.files[0]
-        console.log(file)
-        if (!file) return;
-        const storageRef = ref(storage, `files/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
+       
+        console.log(imgUrl)
+        if (!imgUrl) return;
+        const storageRef = ref(storage, `files/${imgUrl.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, imgUrl);
         setIsUpload(true)
         uploadTask.on("state_changed",
             (snapshot) => {
                 const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
                 setProgresspercent(progress);
                 getImages()
+                setIsChoose(true)
                 setIsUpload(false)
             },
             (error) => {
@@ -130,20 +136,20 @@ const MainApp = () => {
                                 }}
                             />
                         )}
-                        <form onSubmit={handleSubmit}>
-                            {/* {isChoose ? */}
+
+                        {isChoose ?
                             <label className="absolute bg-yellow-500 right-20 bottom-10 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded z-9 curseor-hand">
                                 <input
                                     type="file"
                                     style={{ display: "none" }}
-                                // onChange={handleChange}
+                                    onChange={(e) => handleChange(e)}
                                 />
                                 Choose Image
                             </label>
-                            {/* : */}
-                            <button type="submit" >{isUpload ? progresspercent : "Upload Image"}</button>
-                            {/* } */}
-                        </form>
+                            :
+                            <button onClick={handleSubmit} className="absolute bg-blue-500 right-20 bottom-10 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded z-9 curseor-hand" >{isUpload ? progresspercent : "Upload Image"}</button>
+                        }
+
                     </div>
                     :
                     <>

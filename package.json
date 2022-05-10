@@ -16,6 +16,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^18.0.0",
     "react-konva": "^18.0.0-0",
+    "react-light-notifications": "^1.0.6",
     "react-scripts": "5.0.1",
     "rsuite": "^5.9.0",
     "use-image": "^1.0.12",
