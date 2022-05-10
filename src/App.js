@@ -44,8 +44,9 @@ const Images = ({ imageProps, isSelected, onSelect, onChange }) => {
         onClick={onSelect}
         onTap={onSelect}
         image={image}
-     
-        ref={shapeRef}
+        width={200}
+        height={350}
+        ref={shapeRef}  
         {...imageProps}
         draggable
         onDragEnd={(e) => {
@@ -111,7 +112,7 @@ const App = (props) => {
   const [selectedImage, setSelectedImage] = React.useState(null);
   const [imagee, setImagee] = React.useState(images)
 
- 
+
 
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
@@ -125,7 +126,7 @@ const App = (props) => {
   const stageRef = React.useRef(null);
 
   const handleExport = () => {
-   //console.log(images)
+    //console.log(images)
     const uri = stageRef.current.toDataURL()
     downloadURI(uri, 'image.png');
   };
@@ -133,6 +134,11 @@ const App = (props) => {
   const handleMouseDown = (e) => {
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      setSelectedImage(null);
+    }
+
     setLines([...lines, { tool, points: [pos.x, pos.y], color, width }]);
   };
 
@@ -178,7 +184,7 @@ const App = (props) => {
         ref={stageRef}
       >
         <Layer>
-          {imagee.map((image, i) => { 
+          {imagee.map((image, i) => {
             return (
               <Images
                 key={i}
@@ -195,8 +201,8 @@ const App = (props) => {
                 crossorigin="anonymous"
               />
             );
-          } 
-        )}
+          }
+          )}
 
           {lines.map((line, i) => (
             <Line
@@ -207,7 +213,7 @@ const App = (props) => {
               tension={0.5}
               lineCap="round"
               globalCompositeOperation={
-                line.tool === 'eraser' ? 'destination-out' : 'source-over'
+               line.tool !== '' ? line.tool === 'eraser' ? 'destination-out' : 'source-over' : null
               }
             />
           ))}
