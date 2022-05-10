@@ -1,8 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Stage, Layer, Line, Text } from 'react-konva';
-import { triggerBase64Download } from 'react-base64-downloader';
+import { Stage, Layer, Line, Text, Image, Transformer } from 'react-konva';
+import useImage from 'use-image';
 
 async function downloadURI(uri, name) {
 
@@ -25,19 +25,107 @@ async function downloadURI(uri, name) {
   }, 1000);
 }
 
+const Images = ({ imageProps, isSelected, onSelect, onChange }) => {
+  const shapeRef = React.useRef();
+  const trRef = React.useRef();
+  const [image] = useImage(imageProps.files);
+
+  React.useEffect(() => {
+    if (isSelected) {
+      // we need to attach transformer manually
+      trRef.current.nodes([shapeRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [isSelected]);
+
+  return (
+    <React.Fragment>
+      <Image
+        onClick={onSelect}
+        onTap={onSelect}
+        image={image}
+        width= {400}
+        height={200}
+        ref={shapeRef}
+        {...imageProps}
+        draggable
+        onDragEnd={(e) => {
+          onChange({
+            ...imageProps,
+            x: e.target.x(),
+            y: e.target.y(),
+          });
+        }}
+        crossorigin="anonymous"
+        onTransformEnd={(e) => {
+          // transformer is changing scale of the node
+          // and NOT its width or height
+          // but in the store we have only width and height
+          // to match the data better we will reset scale on transform end
+          const node = shapeRef.current;
+          const scaleX = node.scaleX();
+          const scaleY = node.scaleY();
+
+          // we will reset it back
+          // node.scaleX(1);
+          // node.scaleY(1);
+          onChange({
+            ...imageProps,
+            x: node.x(),
+            y: node.y(),
+            // set minimal value
+            width: Math.max(5, node.width() * scaleX),
+            height: Math.max(node.height() * scaleY),
+          });
+        }}
+      >
+      </Image>
+      {isSelected && (
+        <Transformer
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            // limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
+      )}
+    </React.Fragment>
+  );
+};
+
 const App = (props) => {
   // const [tool, setTool] = React.useState('pen');
+  React.useEffect(() => {
+    console.log(props)
+  }, [props])
+
   const {
     tool,
     color,
-    width
+    width,
+    images
   } = props
-  const [lines, setLines] = React.useState([]);
-  const isDrawing = React.useRef(false);
 
+  const [lines, setLines] = React.useState([]);
+  const [selectedImage, setSelectedImage] = React.useState(null);
+  const [imagee, setImagee] = React.useState(images)
+
+  const checkDeselect = (e) => {
+    // deselect when clicked on empty area
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      setSelectedImage(null);
+    }
+  };
+
+  const isDrawing = React.useRef(false);
   const stageRef = React.useRef(null);
 
   const handleExport = () => {
+   //console.log(images)
     const uri = stageRef.current.toDataURL()
     downloadURI(uri, 'image.png');
   };
@@ -69,11 +157,12 @@ const App = (props) => {
   };
 
   return (
-    <div style={{ overflowY: 'hidden' }}>
+    <div
+      style={{ overflowY: 'hidden' }} >
       <button
-        id="nextButtin"
+        id="nextButton"
         onClick={handleExport}
-        class=" absolute bg-blue-500 right-20 bottom-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded z-9"
+        className="absolute bg-blue-500 right-20 bottom-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded z-9"
       >Save Image</button>
       <Stage
         width={window.innerWidth - 400}
@@ -84,9 +173,31 @@ const App = (props) => {
         onMousedown={handleMouseDown}
         onMousemove={handleMouseMove}
         onMouseup={handleMouseUp}
+        // onMouseDown={checkDeselect}
+        // onTouchStart={checkDeselect}
         ref={stageRef}
       >
         <Layer>
+          {imagee.map((image, i) => { 
+            return (
+              <Images
+                key={i}
+                imageProps={image}
+                isSelected={image.id === selectedImage}
+                onSelect={() => {
+                  setSelectedImage(image.id);
+                }}
+                onChange={(newAttrs) => {
+                  const image = images.slice();
+                  //   rects[i] = newAttrs;
+                  //   setRectangles(rects);
+                }}
+                crossorigin="anonymous"
+              />
+            );
+          } 
+        )}
+
           {lines.map((line, i) => (
             <Line
               key={i}
@@ -100,6 +211,7 @@ const App = (props) => {
               }
             />
           ))}
+
         </Layer>
       </Stage>
     </div>
