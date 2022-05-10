@@ -38,7 +38,7 @@ const MainApp = () => {
         }).catch((error) => {
             console.log(error)
         })
-        
+
     }
 
     const [tool, setTool] = React.useState('pen');
@@ -83,9 +83,23 @@ const MainApp = () => {
         <div className={`h-screen flex overflow-y-hidden overflow-x-hidden`}>
             <div className={`w-16 bg-white shadow-default py-2 px-2 mt-10`}>
                 <ul >
-                    <li onClick={() => setTool('pen')} className={`py-3 px-4 rounded-md cursor-pointer text-cyan text-sm flex justify-center hover:bg-cyan-100`}><i class='bx bx-pen'></i></li>
-                    <li onClick={() => setTool('eraser')} className={`py-3 px-4 rounded-md cursor-pointer text-cyan text-sm flex justify-center hover:bg-cyan-100`}><i class='bx bxs-eraser'></i></li>
-                    <li onClick={() => setMedia(!media)} className={`py-3 px-4 rounded-md cursor-pointer text-cyan text-sm flex justify-center hover:bg-cyan-100`}><i class='bx bxs-image-alt'></i></li>
+                    <li
+                        onClick={() => {
+                            setTool('pen')
+                            setMedia(false)
+                        }}
+                        className={`py-3 px-4 rounded-md cursor-pointer text-cyan text-sm flex justify-center hover:bg-cyan-100`}><i class='bx bx-pen'></i></li>
+                    <li
+                        onClick={() => {
+                            setTool('eraser')
+                            setMedia(false)
+                        }}
+                        className={`py-3 px-4 rounded-md cursor-pointer text-cyan text-sm flex justify-center hover:bg-cyan-100`}><i class='bx bxs-eraser'></i></li>
+                    <li onClick={() => {
+                        setTool('')
+                        setMedia(true)
+                    }}
+                        className={`py-3 px-4 rounded-md cursor-pointer text-cyan text-sm flex justify-center hover:bg-cyan-100`}><i class='bx bxs-image-alt'></i></li>
                 </ul>
             </div>
             <div className={`w-4/5 flex bg-cyan-800 py-5 px-5 `}>

@@ -28,7 +28,7 @@ async function downloadURI(uri, name) {
 const Images = ({ imageProps, isSelected, onSelect, onChange }) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
-  const [image] = useImage(imageProps.files);
+  const [image] = useImage(imageProps.files, 'Anonymous');
 
   React.useEffect(() => {
     if (isSelected) {
@@ -44,8 +44,7 @@ const Images = ({ imageProps, isSelected, onSelect, onChange }) => {
         onClick={onSelect}
         onTap={onSelect}
         image={image}
-        width= {400}
-        height={200}
+     
         ref={shapeRef}
         {...imageProps}
         draggable
@@ -112,6 +111,8 @@ const App = (props) => {
   const [lines, setLines] = React.useState([]);
   const [selectedImage, setSelectedImage] = React.useState(null);
   const [imagee, setImagee] = React.useState(images)
+
+ 
 
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
