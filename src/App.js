@@ -36,19 +36,20 @@ const Images = ({ imageProps, isSelected, onSelect, onChange }) => {
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
     }
+    console.log(isSelected)
   }, [isSelected]);
 
   return (
     <React.Fragment>
       <Image
-        onClick={onSelect}
-        onTap={onSelect}
+        onDblClick={onSelect}
+        onDblTap={onSelect}
         image={image}
         width={200}
         height={350}
         ref={shapeRef}  
         {...imageProps}
-        draggable
+        draggable={isSelected}
         onDragEnd={(e) => {
           onChange({
             ...imageProps,
@@ -111,7 +112,7 @@ const App = (props) => {
   const [lines, setLines] = React.useState([]);
   const [selectedImage, setSelectedImage] = React.useState(null);
   const [imagee, setImagee] = React.useState(images)
-
+  const [isDrag, setIsDrag] = React.useState(false)
 
 
   const checkDeselect = (e) => {
@@ -147,6 +148,10 @@ const App = (props) => {
     if (!isDrawing.current) {
       return;
     }
+
+    if(tool === ''){
+      return;
+    }
     const stage = e.target.getStage();
     const point = stage.getPointerPosition();
     let lastLine = lines[lines.length - 1];
@@ -172,7 +177,7 @@ const App = (props) => {
       >Save Image</button>
       <Stage
         width={window.innerWidth - 400}
-        height={window.innerHeight - 80}
+        height={window.innerHeight - 85}
         onTouchstart={handleMouseDown}
         onTouchmove={handleMouseMove}
         onTouchend={handleMouseUp}
