@@ -4,11 +4,10 @@ import { Slider, RangeSlider } from 'rsuite';
 import { SketchPicker, CirclePicker } from 'react-color';
 import { storage } from './firebase';
 import { ref, getDownloadURL, uploadBytesResumable, listAll } from "firebase/storage";
-import {
-    NotificationContainer,
-    NotificationManager
-} from "react-light-notifications";
-import "react-light-notifications/lib/main.css";
+import { ReactNotifications } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import { Store } from 'react-notifications-component';
+
 
 import 'rsuite/styles/index.less';
 
@@ -65,7 +64,7 @@ const MainApp = () => {
     }
 
     const handleSubmit = (e) => {
-       
+
         console.log(imgUrl)
         if (!imgUrl) return;
         const storageRef = ref(storage, `files/${imgUrl.name}`);
@@ -82,11 +81,26 @@ const MainApp = () => {
             (error) => {
                 alert(error);
             },
+
         );
+        Store.addNotification({
+            title: "Success!",
+            message: "Image success uploaded",
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 5000,
+                onScreen: true
+            }
+        });
     }
 
     return (
         <div className={`h-screen flex overflow-y-hidden overflow-x-hidden`}>
+            <ReactNotifications />
             <div className={`w-16 bg-white shadow-default py-2 px-2 mt-10`}>
                 <ul >
                     <li
